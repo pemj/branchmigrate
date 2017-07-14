@@ -39,7 +39,7 @@ Write-Host "list of branches is as follows: $branches"
 foreach ($remote in $branches.split()){
 	$repoName, $branchName = $remote.ToString().Replace("refs/remotes/", "").Split('/',2)
 	Write-Host "Attempting to copy $branchName to Azure-IoT-Hub-Main."
-	git branch --track $repoName $repoName/$branchName
+	git branch --track $repoName/$branchName
 	git checkout $branchName
 	git push origin $branchName
 }
