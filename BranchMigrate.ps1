@@ -39,7 +39,7 @@ Else
 
 #push branches to new root
 foreach ($remote in $branches){
-	$repoName, $a = $remote.ToString().Split('/',2)
+	$repoName, $branchName = $remote.ToString().Split('/',2)
 	Write-Host "Attempting to copy $branchName to Azure-IoT-Hub-Main."
 	git branch --track $repoName $repoName/$branchName
 	git checkout $branchName
