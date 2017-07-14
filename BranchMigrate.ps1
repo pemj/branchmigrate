@@ -28,7 +28,7 @@ git fetch $upName --quiet
 if ($branches.equals("blank"))
 {
 	#get a list of this user's branches
-	$branches = -split $(git for-each-ref --format='%09 %(authoremail) %09 %(refname)' | Select-String "$(git config --global user.email)" | Select-String "refs/remotes/$upName")
+	$branches = -split $(git for-each-ref --format='%09 %(authoremail) %09 %(refname)' | Select-String "$(git config --global user.email)") | Select-String "refs/remotes/$upName"
 }
 Else
 {
