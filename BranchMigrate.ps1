@@ -28,9 +28,9 @@ git fetch $upName
 if ($branches.equals("blank"))
 {
 	#get a list of this user's branches
-	$personal_branches = -split $(git for-each-ref --format='%09 %(authoremail) %09 %(refname)' | Select-String "$(git config --global user.email)" | Select-String "refs/remotes/$upName")
-	$personal_branches = $personal_branches | select-string "refs/remotes"
-	$personal_branches = foreach ($element in $personal_branches){ $element.ToString().Replace("refs/remotes", "") }
+	$branches = -split $(git for-each-ref --format='%09 %(authoremail) %09 %(refname)' | Select-String "$(git config --global user.email)" | Select-String "refs/remotes/$upName")
+	$branches = $branches | select-string "refs/remotes"
+	$branches = foreach ($element in $branches){ $element.ToString().Replace("refs/remotes", "") }
 }
 Else
 {
