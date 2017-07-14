@@ -23,8 +23,8 @@ cd Azure-IoT-Hub-Main
 
 
 #finagle list of branches
-git pull
-git fetch $upName
+git pull --quiet
+git fetch $upName --quiet
 if ($branches.equals("blank"))
 {
 	#get a list of this user's branches
@@ -36,10 +36,10 @@ Else
 {
 	$branches = $branches.Split(',')
 }
-
+Write-Host "list of branches is as follows: $branches"
 #push branches to new root
 foreach ($remote in $branches){
-	$repoName, $branchName = $remote.ToString().Split('/',2)
+	$repoName, $branchName = $remote.Split('/',2)
 	Write-Host "Attempting to copy $branchName to Azure-IoT-Hub-Main."
 	git branch --track $repoName $repoName/$branchName
 	git checkout $branchName
