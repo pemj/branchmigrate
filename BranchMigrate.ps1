@@ -38,7 +38,7 @@ Else
 }
 Write-Host "list of branches is as follows: $branches"
 #push branches to new root
-foreach ($remote in $branches){
+foreach ($remote in $branches.split()){
 	$repoName, $branchName = $remote.Split('/',2)
 	Write-Host "Attempting to copy $branchName to Azure-IoT-Hub-Main."
 	git branch --track $repoName $repoName/$branchName
