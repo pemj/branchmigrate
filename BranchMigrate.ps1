@@ -25,7 +25,7 @@ cd Azure-IoT-Hub-Main
 #finagle list of branches
 git pull
 git fetch $upName
-if (branches.equals("blank"))
+if ($branches.equals("blank"))
 {
 	#get a list of this user's branches
 	$personal_branches = -split $(git for-each-ref --format='%09 %(authoremail) %09 %(refname)' | Select-String "$(git config --global user.email)" | Select-String "refs/remotes/$upName")
