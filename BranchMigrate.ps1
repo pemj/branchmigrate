@@ -29,8 +29,6 @@ if ($branches.equals("blank"))
 {
 	#get a list of this user's branches
 	$branches = -split $(git for-each-ref --format='%09 %(authoremail) %09 %(refname)' | Select-String "$(git config --global user.email)" | Select-String "refs/remotes/$upName")
-	$branches = $branches | select-string "refs/remotes"
-	$branches = foreach ($element in $branches){ $element.ToString().Replace("refs/remotes/", "") }
 }
 Else
 {
@@ -39,7 +37,7 @@ Else
 Write-Host "list of branches is as follows: $branches"
 #push branches to new root
 foreach ($remote in $branches.split()){
-	$repoName, $branchName = $remote.Split('/',2)
+	$repoName, $branchName = $remote.ToString().Replace("refs/remotes/", "").Split('/',2)
 	Write-Host "Attempting to copy $branchName to Azure-IoT-Hub-Main."
 	git branch --track $repoName $repoName/$branchName
 	git checkout $branchName
