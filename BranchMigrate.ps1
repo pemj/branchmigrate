@@ -1,15 +1,18 @@
 Param(
-	[string]$branches = "blank"
+    [string]$branches
 )
-
+if (-not($branches))
+{
+    Throw "You must Provide a list of branches"
+}
 $upName = "upstream_old"
 If ($(git remote -v | Select-String $upName))
 {
-	git remote set-url $upName https://msazure.visualstudio.com/DefaultCollection/One/_git/ServiceBus-DeviceHub
+    git remote set-url $upName https://msazure.visualstudio.com/DefaultCollection/One/_git/ServiceBus-DeviceHub
 }
 Else
 {
-	git remote add $upName https://msazure.visualstudio.com/DefaultCollection/One/_git/ServiceBus-DeviceHub
+    git remote add $upName https://msazure.visualstudio.com/DefaultCollection/One/_git/ServiceBus-DeviceHub
 }
 
 
@@ -25,22 +28,12 @@ cd Azure-IoT-Hub-Main
 #finagle list of branches
 git pull --quiet
 git fetch $upName --quiet
-if ($branches.equals("blank"))
-{
-	#get a list of this user's branches
-	$branches = -split $(git for-each-ref --format='%09 %(authoremail) %09 %(refname)' | Select-String "$(git config --global user.email)") | Select-String "refs/remotes/$upName"
-}
-Else
-{
-	$branches = $branches.Split(',')
-}
-Write-Host "list of branches is as follows: $branches"
+$branches = $branches.Split(',')
 #push branches to new root
-foreach ($remote in $branches.split()){
-	$repoName, $branchName = $remote.ToString().Replace("refs/remotes/", "").Split('/',2)
-	Write-Host "Attempting to copy $branchName to Azure-IoT-Hub-Main."
-	git checkout $repoName/$branchName
-	git checkout -b $branchName
-	git push origin $branchName
+foreach ($branchName in $branches){
+    Write-Host "Attempting to copy $branchName to Azure-IoT-Hub-Main."
+    git checkout $upstream_old/$branchName
+    git checkout -b $branchName
+    git push origin $branchName
 }
 
